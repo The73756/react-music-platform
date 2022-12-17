@@ -10,7 +10,7 @@ import * as path from 'path';
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, 'static'),
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/music-platform'),
+    MongooseModule.forRoot('mongodb://127.0.0.1:27017/react-music-platform'),
     TrackModule,
     FileModule,
   ],
