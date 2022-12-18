@@ -15,11 +15,12 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Routes } from '../types/routes';
 
 const menuItems = [
-  { text: 'Главная', href: '/' },
-  { text: 'Список треков', href: '/tracks' },
-  { text: 'Список альбомов', href: '/albums' },
+  { text: 'Главная', href: Routes.HOME },
+  { text: 'Список треков', href: Routes.TRACKS },
+  { text: 'Список альбомов', href: Routes.ALBUMS },
 ];
 
 export default function Navbar() {
@@ -32,7 +33,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} mb="20px">
         <AppBar position="static">
           <Toolbar>
             <IconButton
