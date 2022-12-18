@@ -1,0 +1,33 @@
+.track {
+  padding: 15px;
+  display: flex;
+  column-gap: 20px;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.info {
+  max-width: 200px;
+}
+
+.name {
+  padding: 0;
+  margin: 0 0 5px;
+  font-size: 20px;
+}
+
+.artist {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  color: #ccc;
+}
+
+.deleteBtn {
+  margin-left: auto;
+}

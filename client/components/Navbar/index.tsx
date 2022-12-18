@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { Routes } from '../../types/routes';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -11,11 +12,12 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Routes } from '../types/routes';
+import Link from 'next/link';
+
+import styles from './Navbar.module.scss';
 
 const menuItems = [
   { text: 'Главная', href: Routes.HOME },
@@ -23,7 +25,7 @@ const menuItems = [
   { text: 'Список альбомов', href: Routes.ALBUMS },
 ];
 
-export default function Navbar() {
+const Navbar = () => {
   const [state, setState] = useState(false);
   const router = useRouter();
 
@@ -44,9 +46,9 @@ export default function Navbar() {
               onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link href={Routes.HOME} className={styles.homeLink}>
               React music platform
-            </Typography>
+            </Link>
           </Toolbar>
         </AppBar>
       </Box>
@@ -71,4 +73,6 @@ export default function Navbar() {
       </Drawer>
     </>
   );
-}
+};
+
+export default Navbar;
