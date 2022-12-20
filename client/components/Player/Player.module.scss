@@ -1,0 +1,31 @@
+.player {
+  padding: 0 10px;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  background-color: #ccc;
+}
+
+.info {
+  max-width: 200px;
+}
+
+.name {
+  padding: 0;
+  margin: 0 0 5px;
+  font-size: 20px;
+}
+
+.artist {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.volumeIcon {
+  margin-left: auto;
+}
