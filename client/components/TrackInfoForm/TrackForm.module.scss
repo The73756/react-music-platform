@@ -1,0 +1,9 @@
+.form {
+  padding: 20px;
+}
+
+.input {
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}

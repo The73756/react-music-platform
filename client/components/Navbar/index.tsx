@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Routes } from '../../types/routes';
 import Box from '@mui/material/Box';
@@ -25,7 +25,7 @@ const menuItems = [
   { text: 'Список альбомов', href: Routes.ALBUMS },
 ];
 
-const Navbar = () => {
+const Navbar: FC = () => {
   const [state, setState] = useState(false);
   const router = useRouter();
 
