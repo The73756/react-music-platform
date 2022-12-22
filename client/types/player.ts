@@ -1,6 +1,6 @@
 import { ITrack } from './track';
 
-export interface Player {
+export interface PlayerState {
   active: null | ITrack;
   volume: number;
   duration: number;
