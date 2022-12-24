@@ -1,3 +1,15 @@
 .root {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress {
+  flex-grow: 1;
+  margin-left: auto;
+}
+
+.time {
+  width: 68px;
 }
