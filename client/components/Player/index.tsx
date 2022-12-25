@@ -19,7 +19,11 @@ const Player = () => {
       audio = new Audio();
     } else {
       setAudio();
-      play();
+    }
+
+    if (!active) {
+      pauseTrack();
+      audio.pause();
     }
   }, [active]);
 

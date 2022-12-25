@@ -1,30 +1,38 @@
 import { FC } from 'react';
 import { ITrack } from '../../types/track';
 import { Card, Grid, IconButton } from '@mui/material';
-import { Delete, Pause, PlayArrow } from '@mui/icons-material';
+import { Delete, PlayArrow } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { Routes } from '../../types/routes';
 import { useActions } from '../../hooks/useActions';
+import { CloseIcon } from 'next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon';
 
 import styles from './TrackItem.module.scss';
 
 interface TrackItemProps {
   track: ITrack;
-  active?: boolean;
+  activeTrack: ITrack;
 }
 
-const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
+const TrackItem: FC<TrackItemProps> = ({ track, activeTrack }) => {
   const router = useRouter();
-  const { setActiveTrack } = useActions();
+  const { setActiveTrack, pauseTrack } = useActions();
+  const isActive = activeTrack?._id === track._id;
 
   const play = (e) => {
     e.stopPropagation();
-    setActiveTrack(track);
+    if (isActive) {
+      setActiveTrack(null);
+      return;
+    } else {
+      setActiveTrack(track);
+      pauseTrack();
+    }
   };
 
   return (
     <Card className={styles.track} onClick={() => router.push(`${Routes.TRACKS}/${track._id}`)}>
-      <IconButton onClick={play}>{active ? <Pause /> : <PlayArrow />}</IconButton>
+      <IconButton onClick={play}>{isActive ? <CloseIcon /> : <PlayArrow />}</IconButton>
       <img
         src={'http://localhost:5000/' + track.picture}
         alt={`Обложка к треку ${track.name}`}
@@ -35,7 +43,6 @@ const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
         <h2 className={styles.name}>{track.name}</h2>
         <h3 className={styles.artist}>{track.artist}</h3>
       </Grid>
-      {active && <div className={styles.progress}>2:13 / 3:00</div>}
       <IconButton onClick={(e) => e.stopPropagation()} className={styles.deleteBtn}>
         <Delete />
       </IconButton>
