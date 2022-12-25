@@ -34,7 +34,7 @@ const TrackPage = ({ serverTrack }) => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout title={track.name + ' - React music platform'}>
       <Button variant="outlined" onClick={() => router.push(Routes.TRACKS)}>
         Назад
       </Button>
