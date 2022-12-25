@@ -1,21 +1,37 @@
 import MainLayout from '../../layouts/MainLayout';
-import { ITrack } from '../../types/track';
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Button, Card, Grid, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import { Routes } from '../../types/routes';
+import { useState } from 'react';
+import { GetServerSideProps } from 'next';
+import axios from 'axios';
+import { useInput } from '../../hooks/useInput';
+import { ITrack } from '../../types/track';
 
-const TrackPage = () => {
-  const track: ITrack = {
-    _id: '1',
-    artist: 'Artist 1',
-    name: 'Track 1',
-    text: 'Text 1',
-    listens: 1,
-    picture: 'http://localhost:5000/image/24c01937-90cd-4169-96bd-88d1f9566868.webp',
-    audio: 'http://localhost:5000/audio/7b56e367-58d8-4d4a-ba37-2fc0fe11b5c9.ogg',
-    comments: [],
-  };
+const TrackPage = ({ serverTrack }) => {
   const router = useRouter();
+  const [track, setTrack] = useState<ITrack>(serverTrack);
+  const username = useInput('');
+  const commentText = useInput('');
+
+  const addComment = async () => {
+    if (!username.value || !commentText.value) {
+      alert('Введите имя пользователя и текст комментария');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/tracks/comment', {
+        username: username.value,
+        text: commentText.value,
+        trackId: track._id,
+      });
+      setTrack({ ...track, comments: [...track.comments, response.data] });
+    } catch (e) {
+      console.log(e);
+      alert('Произошла ошибка при отправке комментария!');
+    }
+  };
 
   return (
     <MainLayout>
@@ -23,7 +39,12 @@ const TrackPage = () => {
         Назад
       </Button>
       <Grid container p="10px">
-        <img src={track.picture} alt={`Обложка к треку ${track.name}`} width={200} height={200} />
+        <img
+          src={'http://localhost:5000/' + track.picture}
+          alt={`Обложка к треку ${track.name}`}
+          width={200}
+          height={200}
+        />
         <Box>
           <h1>Название - {track.name}</h1>
           <h2>Исполнитель - {track.artist}</h2>
@@ -33,21 +54,40 @@ const TrackPage = () => {
       <h2>Слова в треке</h2>
       <p>{track.text}</p>
       <h2>Комментарии</h2>
-      <Grid container>
-        <TextField label="Ваше имя" fullWidth margin="normal" />
-        <TextField label="Комментарий" multiline fullWidth rows={4} />
-        <Button>Отправить</Button>
+      <Grid container style={{ marginBottom: '10px' }}>
+        <TextField label="Ваше имя" fullWidth margin="normal" {...username} />
+        <TextField label="Комментарий" multiline fullWidth rows={4} {...commentText} />
+        <Button onClick={addComment} variant="outlined">
+          Отправить
+        </Button>
       </Grid>
       <div>
-        {track.comments.map((comment) => (
-          <article>
-            <p>автор - {comment.username}</p>
-            <p>text - {comment.text}</p>
-          </article>
-        ))}
+        {track.comments.map(
+          (
+            comment, //TODO: вынести как компонент комментарии и форму
+          ) => (
+            <article key={comment._id}>
+              <Box mb="10px">
+                <Card style={{ padding: '10px' }}>
+                  <p>автор - {comment.username}</p>
+                  <p>text - {comment.text}</p>
+                </Card>
+              </Box>
+            </article>
+          ),
+        )}
       </div>
     </MainLayout>
   );
 };
 
 export default TrackPage;
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const response = await axios.get('http://localhost:5000/tracks/' + params.id);
+  return {
+    props: {
+      serverTrack: response.data,
+    },
+  };
+};
