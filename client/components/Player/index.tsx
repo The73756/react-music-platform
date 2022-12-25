@@ -12,7 +12,7 @@ const Player = () => {
   const { currentTime, duration, volume, pause, active } = useTypedSelector(
     (state) => state.player,
   );
-  const {playTrack, pauseTrack, setVolume, setDuration, setCurrentTime} = useActions();
+  const { playTrack, pauseTrack, setVolume, setDuration, setCurrentTime } = useActions();
 
   useEffect(() => {
     if (!audio) {
@@ -26,22 +26,22 @@ const Player = () => {
   const setAudio = () => {
     if (active) {
       console.log(active.audio);
-      audio.src = active.audio;
-      audio.volume = (volume / 100);
+      audio.src = 'http://localhost:5000/' + active.audio;
+      audio.volume = volume / 100;
 
       audio.onloadedmetadata = () => {
         setDuration(Math.ceil(audio.duration));
-      }
+      };
 
       audio.ontimeupdate = () => {
         setCurrentTime(Math.ceil(audio.currentTime));
-      }
+      };
 
       audio.onended = () => {
         pauseTrack();
-      }
+      };
     }
-  }
+  };
 
   const play = () => {
     if (pause) {
@@ -55,13 +55,13 @@ const Player = () => {
 
   const changeVolume = (e: ChangeEvent<HTMLInputElement>) => {
     audio.volume = Number(e.target.value) / 100;
-    setVolume(Number(e.target.value))
-  }
+    setVolume(Number(e.target.value));
+  };
 
   const changeCurrentTime = (e: ChangeEvent<HTMLInputElement>) => {
     audio.currentTime = Number(e.target.value);
-    setCurrentTime(Number(e.target.value))
-  }
+    setCurrentTime(Number(e.target.value));
+  };
 
   if (!active) {
     return null;
@@ -69,9 +69,7 @@ const Player = () => {
 
   return (
     <div className={styles.player}>
-      <IconButton onClick={play}>
-        {!pause ? <Pause /> : <PlayArrow />}
-      </IconButton>
+      <IconButton onClick={play}>{!pause ? <Pause /> : <PlayArrow />}</IconButton>
       <Grid container direction="column" className={styles.info}>
         <h2 className={styles.name}>{active?.name}</h2>
         <h3 className={styles.artist}>{active?.artist}</h3>

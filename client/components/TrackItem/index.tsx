@@ -15,7 +15,7 @@ interface TrackItemProps {
 
 const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
   const router = useRouter();
-  const {setActiveTrack } = useActions();
+  const { setActiveTrack } = useActions();
 
   const play = (e) => {
     e.stopPropagation();
@@ -25,7 +25,12 @@ const TrackItem: FC<TrackItemProps> = ({ track, active = false }) => {
   return (
     <Card className={styles.track} onClick={() => router.push(`${Routes.TRACKS}/${track._id}`)}>
       <IconButton onClick={play}>{active ? <Pause /> : <PlayArrow />}</IconButton>
-      <img src={track.picture} alt={`Обложка к треку ${track.name}`} width={70} height={70} />
+      <img
+        src={'http://localhost:5000/' + track.picture}
+        alt={`Обложка к треку ${track.name}`}
+        width={70}
+        height={70}
+      />
       <Grid container direction="column" className={styles.info}>
         <h2 className={styles.name}>{track.name}</h2>
         <h3 className={styles.artist}>{track.artist}</h3>

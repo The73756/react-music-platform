@@ -19,7 +19,7 @@ const TrackPage = () => {
 
   return (
     <MainLayout>
-      <Button variant="outlined" onClick={() => router.push(Routes.HOME)}>
+      <Button variant="outlined" onClick={() => router.push(Routes.TRACKS)}>
         Назад
       </Button>
       <Grid container p="10px">
