@@ -5,6 +5,7 @@ import styles from './Player.module.scss';
 import TrackProgress from '../TrackProgress';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useActions';
+import axios from 'axios';
 
 let audio;
 
@@ -43,6 +44,7 @@ const Player = () => {
 
       audio.onended = () => {
         pauseTrack();
+        addListen(active._id).catch((e) => console.log(e));
       };
     }
   };
@@ -55,6 +57,10 @@ const Player = () => {
       pauseTrack();
       audio.pause();
     }
+  };
+
+  const addListen = async (id) => {
+    await axios.post('http://localhost:5000/tracks/listen/' + id);
   };
 
   const changeVolume = (e: ChangeEvent<HTMLInputElement>) => {
